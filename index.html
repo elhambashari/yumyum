@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Yumi</title>
+	<link rel="stylesheet" href="style.css">
+	<script type="module" src="script.js" defer></script>
+	<script type="module" src="config.js" defer></script>
+</head>
+<body>
+	<div id="responseDisplay"></div>
+
+	
+<div id="menu" class="view">
+	<!-- Icone Varukorg -->
+	<div class="cart-icon">
+	  <img src="ax.imag/shopping-cart (1).png" id="cartIcon" alt="Varukorg" />
+	</div>
+	<h1>Menyn</h1>
+	<div id="menuItems"></div>
+	<button id="goToCart">Gå till varukorg</button>
+	<div id="cartSummary">
+	  <p id="cartTotal">Totalt: 0 kr</p> 
+	</div>
+  </div>
+  
+  
+  <div id="cart" class="view hidden">
+	<h1>Varukorg</h1>
+	<div id="cartItems"></div>
+	<button id="backToMenu">Tillbaka till Menyn</button>
+	<button id="goToOrder">Lägg beställning</button>
+  </div>
+  
+
+
+
+	<div id="order" class="view hidden">
+		<h1>Bekräfta Beställning</h1>
+		<div id="orderSummary"></div>
+		<button id="placeOrder">Slutför Beställning</button>
+	</div>
+
+	
+
+<div id="receipt" class="view hidden">
+	<h1>Kvitto</h1>
+	<div id="receiptDetails"></div>
+	<button id="backToMenuFromReceipt">Tillbaka till Menyn</button>
+  </div>
+  
+</body>
+</html>
