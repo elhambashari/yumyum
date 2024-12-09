@@ -118,10 +118,11 @@ function removeFromCart(itemId) {
 
 function renderMenu() {
     const menuItems = [
-        { id: 1, name: 'Kyckling Wonton', price: 40, image: 'bild.img/image.png' },
-        { id: 2, name: 'Vegetarisk Wonton', price: 35, image: 'bild.img/wonton.jpg' },
-        { id: 3, name: 'Chilisås', price: 10, image: 'bild.img/dip.jpg' },
-        { id: 4, name: 'Läsk', price: 20, image: 'bild.img/OIP.jpg' },
+        { id: 1, name: 'Kyckling Wonton(4st)', price: 40, image: 'bild.img/image.png' },
+        { id: 2, name: 'Vegetarisk Wonton(4st)', price: 35, image: 'bild.img/wonton.jpg' },
+		{ id: 3, name: 'Sushi(8st)', price: 80, image: 'bild.img/sushi.jpeg' },
+        { id: 4, name: 'Chilisås(1st) and soyasås(1st)', price: 15, image: 'bild.img/dip.jpg' },
+        { id: 5, name: 'Läsk', price: 20, image: 'bild.img/OIP.jpg' },
     ];
 
     const menuItemsContainer = document.getElementById('menuItems');
