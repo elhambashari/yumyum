@@ -71,6 +71,51 @@ button:hover {
 	padding: 10px 0;
 }
 
+
+
+
+
+
+
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.menu-image {
+    width: 80px; 
+    height: 80px; 
+    object-fit: cover; 
+    border-radius: 10px; 
+    margin-right: 15px; 
+}
+
+.menu-item div {
+    flex: 1; 
+}
+
+.menu-item p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .hidden {
 	display: none;
 }

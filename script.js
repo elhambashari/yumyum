@@ -116,13 +116,12 @@ function removeFromCart(itemId) {
     updateCartView();
 }
 
-// Render menu items
 function renderMenu() {
     const menuItems = [
-        { id: 1, name: 'Kycklingwonton', price: 40 },
-        { id: 2, name: 'Vegetarisk wonton', price: 35 },
-        { id: 3, name: 'Dipsås', price: 10 },
-        { id: 4, name: 'Läsk', price: 20 },
+        { id: 1, name: 'Kyckling Wonton', price: 40, image: 'bild.img/image.png' },
+        { id: 2, name: 'Vegetarisk Wonton', price: 35, image: 'bild.img/wonton.jpg' },
+        { id: 3, name: 'Chilisås', price: 10, image: 'bild.img/dip.jpg' },
+        { id: 4, name: 'Läsk', price: 20, image: 'bild.img/OIP.jpg' },
     ];
 
     const menuItemsContainer = document.getElementById('menuItems');
@@ -130,14 +129,19 @@ function renderMenu() {
 
     menuItems.forEach(item => {
         const itemElement = document.createElement('div');
+        itemElement.classList.add('menu-item');
         itemElement.innerHTML = `
-            <h3>${item.name}</h3>
-            <p>${item.price} kr</p>
-            <button class="addToCart" data-id="${item.id}">Lägg till</button>
+            <img src="${item.image}" alt="${item.name}" class="menu-image">
+            <div>
+                <p>${item.name}</p>
+                <p>${item.price} kr</p>
+                <button class="addToCart" data-id="${item.id}">Lägg till</button>
+            </div>
         `;
         menuItemsContainer.appendChild(itemElement);
     });
 
+    // Add event listeners for "Add to Cart" buttons
     document.querySelectorAll('.addToCart').forEach(button => {
         button.addEventListener('click', (e) => {
             const itemId = parseInt(e.target.dataset.id);
@@ -146,6 +150,7 @@ function renderMenu() {
         });
     });
 }
+
 
 // Show the relevant view
 function showView(viewName) {
