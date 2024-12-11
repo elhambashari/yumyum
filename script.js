@@ -191,10 +191,6 @@ function resetApp() {
     updateCartBadge();
 }
 
-// Set default page to menu
-window.addEventListener('DOMContentLoaded', () => {
-    navigateToPage("menu");
-});
 
 
 
