@@ -1,6 +1,6 @@
-
-  {
-        "tanent": {
+{
+    "tanent": {
+		
 		"id": "6prt",
         "name": "Elham",
         "phone": "+123456789"
@@ -11,8 +11,184 @@
         { "id": 3, "name": "Sushi(6st)", "price": 80, "image": "ax.imag/sushi.jpeg" },
         { "id": 4, "name": "Chilisås and soyasås", "price": 20, "image": "ax.imag/dip.jpg" },
         { "id": 5, "name": "Cocacola", "price": 20, "image": "ax.imag/OIP.jpg" }
-    ]
-}
+    ],
+
+
+
+
+
+
+
+
+	"items": [
+	  {
+		"id": 1,
+		"type": "wonton",
+		"name": "Karlstad",
+		"description": "En god friterad wonton med smaker från de värmländska skogarna.",
+		"ingredients": [
+		  "kantarell",
+		  "scharlottenlök",
+		  "morot",
+		  "bladpersilja"
+		],
+		"price": 9
+	  },
+	  {
+		"id": 2,
+		"type": "wonton",
+		"name": "Bangkok",
+		"description": "En god friterad wonton med smaker från Bangkoks gator.",
+		"ingredients": [
+		  "morot",
+		  "salladslök",
+		  "chili",
+		  "kokos",
+		  "lime",
+		  "koriander"
+		],
+		"price": 9
+	  },
+	  {
+		"id": 3,
+		"type": "wonton",
+		"name": "Ho Chi Minh",
+		"description": "En god friterad wonton med smaker från vietnams matkultur.",
+		"ingredients": [
+		  "kål",
+		  "morot",
+		  "salladslök",
+		  "chili",
+		  "vitlök",
+		  "ingefära",
+		  "tofu"
+		],
+		"price": 9
+	  },
+	  {
+		"id": 4,
+		"name": "Paris",
+		"type": "wonton",
+		"description": "En god friterad wonton med smaker från det franska köket.",
+		"ingredients": [
+		  "kål",
+		  "honung",
+		  "chevré",
+		  "basilika",
+		  "valnötspasta"
+		],
+		"price": 9
+	  },
+	  {
+		"id": 5,
+		"type": "wonton",
+		"name": "Oaxaca",
+		"description": "En god friterad wonton med smaker från mexicos kryddiga matkultur.",
+		"ingredients": [
+		  "majs",
+		  "tomat",
+		  "rostade ärtor",
+		  "vitlök",
+		  "lime"
+		],
+		"price": 9
+	  }
+	],
+
+
+
+
+
+
+
+
+
+
+	
+		"order": {
+		  "id": "g1tsh2ly",
+		  "timestamp": "2024-12-09T19:31:59.221Z",
+		  "items": [
+			{
+			  "id": 1,
+			  "type": "wonton",
+			  "name": "Karlstad",
+			  "description": "En god friterad wonton med smaker från de värmländska skogarna.",
+			  "ingredients": [
+				"kantarell",
+				"scharlottenlök",
+				"morot",
+				"bladpersilja"
+			  ],
+			  "price": 9
+			}
+		  ],
+		  "orderValue": 9,
+		  "eta": "2024-12-09T19:43:11.376Z",
+		  "state": "waiting"
+		},
+
+
+
+
+
+
+
+
+		"orders": [
+			{
+			  "eta": "2024-12-09T19:43:11.376Z",
+			  "orderValue": 9,
+			  "timestamp": "2024-12-09T19:31:59.221Z",
+			  "id": "g1tsh2ly",
+			  "items": [
+				{
+				  "name": "Karlstad",
+				  "description": "En god friterad wonton med smaker från de värmländska skogarna.",
+				  "ingredients": [
+					"kantarell",
+					"scharlottenlök",
+					"morot",
+					"bladpersilja"
+				  ],
+				  "id": 1,
+				  "type": "wonton",
+				  "price": 9
+				}
+			  ],
+			  "state": "processing"
+			}
+		  ],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		  "receipt": {
+			"id": "g1tsh2ly",
+			"items": [
+			  {
+				"id": 1,
+				"name": "Karlstad",
+				"type": "wonton",
+				"quantity": 1,
+				"price": 9
+			  }
+			],
+			"orderValue": 9,
+			"timestamp": "2024-12-09T19:31:59.221Z"
+		  }
+	  }
+  
 
 
 

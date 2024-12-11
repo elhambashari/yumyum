@@ -1,64 +1,23 @@
-let cart = []; // Cart array to store items
 
-// Update cart count in the icon
-function updateCartCount() {
-    const cartCount = document.getElementById('cartCount');
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    cartCount.textContent = totalItems;
-}
 
-// Show order summary on the order page
-function renderOrderSummary() {
-    const orderSummaryContainer = document.getElementById('orderSummary');
-    orderSummaryContainer.innerHTML = ''; // Clear previous content
-    let totalPrice = 0;
+const API_KEY = "yum-fPTHpvozwrJ7H2FT";
 
-    cart.forEach(item => {
-        totalPrice += item.price * item.quantity;
-        const itemElement = document.createElement('div');
-        itemElement.innerHTML = `
-            <h3>${item.name} (${item.quantity} st) - ${item.price * item.quantity} kr</h3>
-        `;
-        orderSummaryContainer.appendChild(itemElement);
-    });
-
-    const totalElement = document.createElement('div');
-    totalElement.innerHTML = `<h3>Total: ${totalPrice} kr</h3>`;
-    orderSummaryContainer.appendChild(totalElement);
-}
-
-// Add item to cart
-function addToCart(item) {
-    const existingItem = cart.find(cartItem => cartItem.id === item.id);
-    if (existingItem) {
-        existingItem.quantity += 1;
-    } else {
-        cart.push({ ...item, quantity: 1 });
+// Fetch menu items dynamically from an API
+async function loadMenuItems() {
+    try {
+        const response = await fetch('https://your-api-endpoint.com/items', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${API_KEY}`, // Use the API_KEY for authorization
+            },
+        });
+        const data = await response.json();
+        displayMenuItems(data);
+    } catch (error) {
+        console.error('Error fetching menu items:', error);
     }
-    updateCartCount();
-    updateCartView();
 }
 
-// Render the cart details
-function updateCartView() {
-    const cartItemsContainer = document.getElementById('cartItems');
-    const cartTotal = document.getElementById('cartTotal');
-    cartItemsContainer.innerHTML = '';
-    let totalPrice = 0;
-
-    cart.forEach(item => {
-        totalPrice += item.price * item.quantity;
-
-        const itemElement = document.createElement('div');
-        itemElement.innerHTML = `
-            <p>${item.name} (${item.quantity} st) - ${item.price * item.quantity} kr</p>
-            <button class="decrease" data-id="${item.id}">-</button>
-            <button class="increase" data-id="${item.id}">+</button>
-        `;
-        cartItemsContainer.appendChild(itemElement);
-    });
-
-    cartTotal.textContent = `Totalt: ${totalPrice} kr`;
 
 
 
@@ -69,179 +28,198 @@ function updateCartView() {
 
 
 
+const ITEMS = [
+	{
+	  id: 1,
+	  name: "Karlstad",
+	  ingredients: ["kantarell", "scharlottenlök", "morot", "bladpersilja"],
+	  price: 9,
+	},
+	{
+	  id: 2,
+	  name: "Bangkok",
+	  ingredients: ["morot", "salladslök", "chili", "kokos", "lime", "koriander"],
+	  price: 9,
+	},
+	{
+	  id: 3,
+	  name: "Ho Chi Minh",
+	  ingredients: ["kål", "morot", "salladslök", "chili", "vitlök", "ingefära", "tofu"],
+	  price: 9,
+	},
+	{
+	  id: 4,
+	  name: "Paris",
+	  ingredients: ["kål", "honung", "chevré", "basilika", "valnötspasta"],
+	  price: 9,
+	},
+	{
+	  id: 5,
+	  name: "Oaxaca",
+	  ingredients: ["majs", "tomat", "rostade ärtor", "vitlök", "lime"],
+	  price: 9,
+	},
+  ];
+let cart = [];
 
-	// Handle the payment when the user clicks the "Betala" button
-document.getElementById("payOrder").addEventListener("click", () => {
-    // You can show a confirmation message, clear the cart, or redirect to a payment page
-    alert("Tack för din beställning! Du har betalat. Vi kommer att behandla din order.");
-    
-    // Optionally, clear the cart and reset everything after payment
-    cart = []; // Empty the cart
-    updateCartCount(); // Reset cart icon count to 0
-    updateCartView(); // Reset the cart details view
-    showView("receipt"); // Show the receipt page
-    renderReceipt(); // Render the receipt after payment
-});
+// Load menu items dynamically
+const menuContainer = document.getElementById("menu-items");
+ITEMS.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+        <h3>${item.name}</h3>
+        <p>Price: ${item.price} SEK</p>
+    `;
+    menuContainer.appendChild(div);
 
-
-
-
-    // Event listeners for increase and decrease buttons
-    document.querySelectorAll('.decrease').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const itemId = parseInt(e.target.dataset.id);
-            removeFromCart(itemId);
-        });
-    });
-
-    document.querySelectorAll('.increase').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const itemId = parseInt(e.target.dataset.id);
-            const item = cart.find(cartItem => cartItem.id === itemId);
-            addToCart(item);
-        });
-    });
-}
-
-// Remove item from cart
-function removeFromCart(itemId) {
-    const itemIndex = cart.findIndex(item => item.id === itemId);
-    if (itemIndex >= 0) {
-        cart[itemIndex].quantity -= 1;
-        if (cart[itemIndex].quantity === 0) {
-            cart.splice(itemIndex, 1);
+    div.addEventListener("click", () => {
+        const existingItem = cart.find((cartItem) => cartItem.id === item.id);
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({ ...item, quantity: 1 });
         }
-    }
-    updateCartCount();
-    updateCartView();
-}
-
-function renderMenu() {
-    const menuItems = [
-        { id: 1, name: 'Kyckling Wonton(4st)', price: 40, image: 'bild.img/image.png' },
-        { id: 2, name: 'Vegetarisk Wonton(4st)', price: 35, image: 'bild.img/wonton.jpg' },
-		{ id: 3, name: 'Sushi(8st)', price: 80, image: 'bild.img/sushi.jpeg' },
-        { id: 4, name: 'Chilisås(1st) and soyasås(1st)', price: 15, image: 'bild.img/dip.jpg' },
-        { id: 5, name: 'Läsk', price: 20, image: 'bild.img/OIP.jpg' },
-    ];
-
-    const menuItemsContainer = document.getElementById('menuItems');
-    menuItemsContainer.innerHTML = '';
-
-    menuItems.forEach(item => {
-        const itemElement = document.createElement('div');
-        itemElement.classList.add('menu-item');
-        itemElement.innerHTML = `
-            <img src="${item.image}" alt="${item.name}" class="menu-image">
-            <div>
-                <p>${item.name}</p>
-                <p>${item.price} kr</p>
-                <button class="addToCart" data-id="${item.id}">Lägg till</button>
-            </div>
-        `;
-        menuItemsContainer.appendChild(itemElement);
+        updateCart();
+        updateCartBadge();
     });
+});
 
-    // Add event listeners for "Add to Cart" buttons
-    document.querySelectorAll('.addToCart').forEach(button => {
-        button.addEventListener('click', (e) => {
-            const itemId = parseInt(e.target.dataset.id);
-            const item = menuItems.find(item => item.id === itemId);
-            addToCart(item);
-        });
-    });
-}
-
-
-// Show the relevant view
-function showView(viewName) {
-    document.querySelectorAll('.view').forEach(view => {
-        view.classList.add('hidden');
-    });
-    document.getElementById(viewName).classList.remove('hidden');
-}
-
-// Complete order and show receipt
-function completeOrder() {
-    // Show receipt with order summary
-    renderReceipt();
-    showView('receipt');
-}
-
-// Render receipt details with a personalized thank you message
-function renderReceipt() {
-    const receiptContainer = document.getElementById('receiptDetails');
-    receiptContainer.innerHTML = ''; // Clear previous content
+// Update cart display
+function updateCart() {
+    const cartContainer = document.getElementById("cart-items");
+    const totalPriceElem = document.getElementById("total-price");
+    cartContainer.innerHTML = "";
     let totalPrice = 0;
 
-    // Add a personalized thank you message
-    const thankYouMessage = document.createElement('div');
-    thankYouMessage.innerHTML = `
-        <h2>Tack Elham för din beställning!</h2>
-        <p>Välkommen åter!</p>
-        <hr>
-    `;
-    receiptContainer.appendChild(thankYouMessage);
-
-    // Add order summary
-    cart.forEach(item => {
-        totalPrice += item.price * item.quantity;
-        const itemElement = document.createElement('div');
-        itemElement.innerHTML = `
-            <h3>${item.name} (${item.quantity} st) - ${item.price * item.quantity} kr</h3>
+    cart.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+            <h3>${item.name}</h3>
+            <p>Price: ${item.price} SEK</p>
+            <p>Quantity: <span class="quantity">${item.quantity}</span></p>
+            <button data-index="${index}" class="remove-from-cart">Remove</button>
+            <button data-index="${index}" class="increase-quantity">+</button>
+            <button data-index="${index}" class="decrease-quantity">-</button>
         `;
-        receiptContainer.appendChild(itemElement);
+        cartContainer.appendChild(div);
+        totalPrice += item.price * item.quantity;
     });
 
-    // Add total price
-    const totalElement = document.createElement('div');
-    totalElement.innerHTML = `
-        <h3>Total: ${totalPrice} kr</h3>
-        <hr>
-    `;
-    receiptContainer.appendChild(totalElement);
+    totalPriceElem.textContent = totalPrice;
+}
 
-    // Optionally, you can add a footer or additional message
-    const footerMessage = document.createElement('div');
-    footerMessage.innerHTML = `
-        <p>Tack för att du har valt oss!</p>
-    `;
-    receiptContainer.appendChild(footerMessage);
+// Update cart badge
+function updateCartBadge() {
+    const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+    const cartBadge = document.getElementById("cart-badge");
+
+    if (itemCount > 0) {
+        cartBadge.textContent = itemCount;
+        cartBadge.classList.remove("hidden");
+    } else {
+        cartBadge.classList.add("hidden");
+    }
+}
+
+// Handle click on the cart icon (SVG)
+document.getElementById("cart-icon-container").addEventListener("click", () => {
+    navigateToPage("order");
+});
+
+// Increase quantity of an item in the cart
+document.getElementById("cart-items").addEventListener("click", (e) => {
+    if (e.target.classList.contains("increase-quantity")) {
+        const index = Number(e.target.dataset.index);
+        cart[index].quantity += 1;
+        updateCart();
+    } else if (e.target.classList.contains("decrease-quantity")) {
+        const index = Number(e.target.dataset.index);
+        if (cart[index].quantity > 1) {
+            cart[index].quantity -= 1;
+            updateCart();
+        }
+    } else if (e.target.classList.contains("remove-from-cart")) {
+        const index = Number(e.target.dataset.index);
+        cart.splice(index, 1);
+        updateCart();
+        updateCartBadge();
+    }
+});
+
+// Place order and reset cart
+document.getElementById("place-order").addEventListener("click", () => {
+    cart = [];
+    updateCart();
+    updateCartBadge();
+    showFaktur();
+});
+
+
+
+
+
+// Show Faktur page
+function showFaktur() {
+    document.querySelectorAll(".page").forEach((section) => section.classList.remove("active"));
+    document.getElementById("faktur").classList.add("active");
+}
+
+// New order
+document.getElementById("new-order").addEventListener("click", () => {
+    resetApp();
+    navigateToPage("menu");
+});
+
+
+
+
+// Navigating to the specific page (ensuring only one is active)
+function navigateToPage(pageId) {
+    document.querySelectorAll(".page").forEach((section) => section.classList.remove("active"));
+    document.getElementById(pageId).classList.add("active");
 }
 
 
 
 
+// Reset app state for a new order
+function resetApp() {
+    cart = [];
+    updateCart();
+    updateCartBadge();
+}
 
-// Event listeners for page transitions
-document.getElementById('goToCart').addEventListener('click', () => {
-    showView('cart');
+// Set default page to menu
+window.addEventListener('DOMContentLoaded', () => {
+    navigateToPage("menu");
 });
 
-document.getElementById('backToMenu').addEventListener('click', () => {
-    showView('menu');
-});
 
 
-document.getElementById('goToOrder').addEventListener('click', () => {
-    renderOrderSummary(); // Render order summary before going to the order page
-    showView('order');
-});
 
-document.getElementById('placeOrder').addEventListener('click', () => {
-    completeOrder(); // Complete the order and show the receipt
-});
 
-document.getElementById('cartIcon').addEventListener('click', () => {
-    renderOrderSummary(); // Render order summary before going to the order page
-    showView('order');
-});
 
-document.getElementById('backToMenuFromReceipt').addEventListener('click', () => {
-    showView('menu');
-});
 
-// Initialize
-renderMenu();
-updateCartCount();
-updateCartView();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
