@@ -18,7 +18,7 @@ body {
 .menu-title {
     text-align: center;
     font-size: 1.5rem;
-    color: white;
+    color: #ffffff;
     margin: 10px 10px 10px 10px;
 	text-shadow: 2px 5px 4px rgb(119, 118, 118);
 	
@@ -38,8 +38,8 @@ body {
     position: absolute;
     top: -5px;
     right: -10px;
-    background-color: red;
-    color: white;
+    background-color: #ff0000;
+    color: #ffffff;
     font-size: 12px;
     font-weight: bold;
     border-radius: 50%;
@@ -71,7 +71,7 @@ body {
 
 .item:hover {
     background-color: rgb(65, 63, 63);
-    color: white; 
+    color: #ffffff; 
 }
 
 .item:hover::after {
@@ -93,11 +93,54 @@ body {
 
 #order {
     background-color:  #20643d;
+	
 }
 
 #total {
     margin-top: 20px;
 }
+
+
+
+
+
+
+
+
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px; /* Adjust font size if needed */
+    font-weight: bold;
+    margin-bottom: 5px; /* Space between items */
+}
+
+.menu-item .dots {
+    flex-grow: 1;
+    border-bottom: 1px dotted #000; /* Dashed line for dots */
+    margin: 0 10px;
+}
+
+.menu-item .name {
+    white-space: nowrap; /* Prevent name from wrapping */
+}
+
+.menu-item .price {
+    white-space: nowrap; /* Prevent price from wrapping */
+}
+
+.ingredients {
+    font-size: 14px;
+    color: #555; /* Subtle color for ingredients */
+    margin: 0 0 10px 0; /* Space below ingredients */
+}
+
+
+
+
+
+
 
 
 
