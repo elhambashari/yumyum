@@ -1,7 +1,4 @@
 
-
-
-
 const API_KEY = "yum-fPTHpvozwrJ7H2FT";
 
 // Fetch menu items dynamically from an API
@@ -158,34 +155,22 @@ let cart = [];
 // Load menu items dynamically
 const menuContainer = document.getElementById("menu-items");
 
-
-
-
 ITEMS.forEach((item) => {
     const div = document.createElement("div");
     div.className = "item";
 
-    // Check item type for dips and drinks
-    if (item.type === "dip" || item.type === "drink") {
-        // Show only name and price for dips and drinks
-        div.innerHTML = `
-            <h3>${item.name}</h3>
-            <p>Pris: ${item.price} SEK</p>
-        `;
-    } else {
-        // Show name, ingredients, and price for other types
-        const ingredients = item.ingredients
-            ? `Ingredienser: ${item.ingredients.join(", ")}`
-            : ""; // Leave empty if no ingredients
-        div.innerHTML = `
-            <h3>${item.name}</h3>
-            <p>${ingredients}</p>
-            <p>Pris: ${item.price} SEK</p>
-        `;
-    }
+    div.innerHTML = `
+        <div class="menu-item">
+            <span class="name">${item.name}</span>
+            <span class="dots"></span>
+            <span class="price">${item.price} SEK</span>
+        </div>
+        <p class="ingredients">${item.ingredients?.join(", ") || ""}</p>
+    `;
 
     menuContainer.appendChild(div);
 
+    // Event listener for clicks
     div.addEventListener("click", () => {
         const existingItem = cart.find((cartItem) => cartItem.id === item.id);
         if (existingItem) {
@@ -197,6 +182,8 @@ ITEMS.forEach((item) => {
         updateCartBadge();
     });
 });
+
+
 
 // Update cart display
 function updateCart() {
@@ -303,6 +290,7 @@ function resetApp() {
     updateCart();
     updateCartBadge();
 }
+
 
 
 
