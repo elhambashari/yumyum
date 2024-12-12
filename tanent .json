@@ -5,16 +5,7 @@
         "name": "Elham",
         "phone": "+123456789"
     },
-    "menuItems": [
-        { "id": 1, "name": "Kyckling Wonton(4st)", "price": 40, "image": "ax.imag/image.png" },
-        { "id": 2, "name": "Vegetarisk Wonton(4st)", "price": 35, "image": "ax.imag/wonton.jpg" },
-        { "id": 3, "name": "Sushi(6st)", "price": 80, "image": "ax.imag/sushi.jpeg" },
-        { "id": 4, "name": "Chilisås and soyasås", "price": 20, "image": "ax.imag/dip.jpg" },
-        { "id": 5, "name": "Cocacola", "price": 20, "image": "ax.imag/OIP.jpg" }
-    ],
-
-
-
+   
 
 
 
