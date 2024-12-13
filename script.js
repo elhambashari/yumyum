@@ -1,25 +1,60 @@
+const apiUrl = 'https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com/';
+const apiKey = "yum-fPTHpvozwrJ7H2FT";
+const tenantName = "Elham";
 
-const API_KEY = "yum-fPTHpvozwrJ7H2FT";
 
-// Fetch menu items dynamically from an API
-async function loadMenuItems() {
+const apiKeyContainer = document.getElementById('api-key-container'); 
+const tenantContainer = document.getElementById('tenant-container'); 
+const buttonApiKey = document.getElementById('button-apikey');
+const buttonTenant = document.getElementById('button-tenant');
+
+async function getKey() {
     try {
-        const response = await fetch(' https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com/', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${"yum-fPTHpvozwrJ7H2FT"}`, // Use the API_KEY for authorization
-            },
-        });
+        const options = { method: 'POST' };
+        const response = await fetch(apiUrl + '/keys', options);
+        if (!response.ok) {
+            throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
         const data = await response.json();
-        displayMenuItems(data);
+        console.log('API Key Data:', data);
+
+        
+        apiKeyContainer.innerText = `API Key: ${data.key}`;
     } catch (error) {
-        console.error('Error fetching menu items:', error);
+        console.error('Error fetching API Key:', error);
+        apiKeyContainer.innerText = `Error fetching API Key: ${error.message}`;
     }
 }
 
 
+async function getTenant() {
+    try {
+        const options = {
+            method: 'POST',
+            headers: {
+                "Content-Type": 'application/json',
+                "x-zocom": apiKey
+            },
+            body: JSON.stringify({ name:  "Elham"})
+        };
+        const response = await fetch(apiUrl + '/tenants', options);
+        if (!response.ok) {
+            throw new Error(`HTTP Error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Tenant Data:', data);
+
+        
+        tenantContainer.innerText = `Tenant ID: ${data.id}, Tenant Name: ${data.name}`;
+    } catch (error) {
+        console.error('Error fetching Tenant:', error);
+        tenantContainer.innerText = `Error fetching Tenant: ${error.message}`;
+    }
+}
 
 
+buttonApiKey.addEventListener('click', getKey);
+buttonTenant.addEventListener('click', getTenant);
 
 
 
@@ -59,7 +94,7 @@ const ITEMS = [
 	  price: 9,
 	},
 	{
-		d: 6,
+		id: 6,
 		"type": "dip",
 		name: "Sweet Chili",
 		"description": "Stark och söt dip från Thailänska höglandet.",
@@ -68,7 +103,7 @@ const ITEMS = [
 	  {
 		id: 7,
 		"type": "dip",
-		name: "Sweet n Sour",
+		name: "Sweet & Sour",
 		"description": "Klassiska sötsura dipsåsen från Kina.",
 		price: 19
 	  },
@@ -152,8 +187,10 @@ const ITEMS = [
   
 let cart = [];
 
-// Load menu items dynamically
+
 const menuContainer = document.getElementById("menu-items");
+
+
 
 ITEMS.forEach((item) => {
     const div = document.createElement("div");
@@ -170,6 +207,8 @@ ITEMS.forEach((item) => {
 
     menuContainer.appendChild(div);
 
+
+
     // Event listener for clicks
     div.addEventListener("click", () => {
         const existingItem = cart.find((cartItem) => cartItem.id === item.id);
@@ -181,7 +220,23 @@ ITEMS.forEach((item) => {
         updateCart();
         updateCartBadge();
     });
+
+
+
+
+
 });
+
+
+
+
+function addToCart(item) {
+    cart.push(item);
+    console.log("First Item in Cart:", cart[0]);  
+}
+
+
+
 
 
 
@@ -209,6 +264,18 @@ function updateCart() {
 
     totalPriceElem.textContent = totalPrice;
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Update cart badge
 function updateCartBadge() {
@@ -260,6 +327,19 @@ document.getElementById("place-order").addEventListener("click", () => {
 
 
 
+
+const backButton = document.getElementById("back-to-menu"); 
+
+if (backButton) {
+    backButton.addEventListener("click", () => {
+        navigateToPage("menu");
+    });
+}
+
+
+
+
+
 // Show Faktur page
 function showFaktur() {
     document.querySelectorAll(".page").forEach((section) => section.classList.remove("active"));
@@ -275,11 +355,71 @@ document.getElementById("new-order").addEventListener("click", () => {
 
 
 
+
+
+
+
+
+console.log("Cart Contents Before Updating Receipt:", cart);
+
+
+
+
+
+
+function updateReceipt() {
+    console.log("Cart Contents Before Updating Receipt:", cart);  
+
+    const receiptContainer = document.getElementById("receipt-container");
+    receiptContainer.innerHTML = ""; 
+    let totalPrice = 0;
+
+    if (cart.length === 0) {
+        console.log("The cart is empty!"); 
+    }
+
+    cart.forEach((item) => {
+        console.log("Item Price:", item.price);
+        console.log("Item Quantity:", item.quantity);
+        const div = document.createElement("div");
+        div.className = "item";
+        div.innerHTML = `
+            <h3>${item.name}</h3>
+            <p>Price: ${item.price} SEK</p>
+            <p>Quantity: ${item.quantity}</p>
+        `;
+        receiptContainer.appendChild(div);
+        totalPrice += item.price * item.quantity;
+    });
+
+    const totalDiv = document.createElement("div");
+    totalDiv.className = "total-price";
+    totalDiv.innerHTML = `<h3>Total: ${totalPrice} SEK</h3>`;
+    receiptContainer.appendChild(totalDiv);
+}
+
+
+const kvittoButton = document.getElementById("kvitto");
+
+kvittoButton.addEventListener("click", () => {
+    console.log("Kvitto button clicked!"); 
+    updateReceipt(); 
+    navigateToPage("kvitto-page"); 
+});
+
+
+
+
+
+
+
+
 // Navigating to the specific page (ensuring only one is active)
 function navigateToPage(pageId) {
     document.querySelectorAll(".page").forEach((section) => section.classList.remove("active"));
     document.getElementById(pageId).classList.add("active");
 }
+
 
 
 
@@ -290,29 +430,5 @@ function resetApp() {
     updateCart();
     updateCartBadge();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
