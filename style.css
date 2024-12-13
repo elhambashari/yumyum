@@ -7,12 +7,12 @@ body {
 }
 
 .page.active {
-    background-color: #20643d;
+    background-color: #266e45;
     border-radius: 10px;
     padding: 20px;
     position: relative;
     margin: 20px;
-    box-shadow: 5px 15px 10px #265f591a;
+    box-shadow: 10px 15px 10px #317e761a;
 }
 
 .menu-title {
@@ -26,7 +26,7 @@ body {
 
 
 
-/* Cart Icon and Badge Styling */
+
 #cart-icon-container {
     position: absolute;
     top: 15px;
@@ -92,7 +92,7 @@ body {
   }
 
 #order {
-    background-color:  #20643d;
+    background-color: #266e45;
 	
 }
 
@@ -104,36 +104,83 @@ body {
 
 
 
-
-
-
 .menu-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 18px; /* Adjust font size if needed */
+    font-size: 18px; 
     font-weight: bold;
-    margin-bottom: 5px; /* Space between items */
+    margin-bottom: 5px; 
 }
 
 .menu-item .dots {
     flex-grow: 1;
-    border-bottom: 1px dotted #000; /* Dashed line for dots */
+    border-bottom: 1px dotted #000; 
     margin: 0 10px;
 }
 
 .menu-item .name {
-    white-space: nowrap; /* Prevent name from wrapping */
+    white-space: nowrap; 
 }
 
 .menu-item .price {
-    white-space: nowrap; /* Prevent price from wrapping */
+    white-space: nowrap; 
 }
 
 .ingredients {
     font-size: 14px;
-    color: #555; /* Subtle color for ingredients */
-    margin: 0 0 10px 0; /* Space below ingredients */
+    color: #555; 
+    margin: 0 0 10px 0;
+}
+
+#place-order{
+border-radius: 3px;
+box-shadow: 1px 2px 2px rgb(237, 235, 235);
+font-weight: bolder;
+
+
+}
+
+#back-to-menu{
+	border-radius: 3px;
+	box-shadow: 1px 2px 2px rgb(237, 235, 235);
+	font-weight: bolder;
+}
+
+#new-order{
+	border-radius: 3px;
+	box-shadow: 1px 2px 2px rgb(237, 235, 235);
+	font-weight: bolder;
+}
+
+#kvitto{
+	border-radius: 3px;
+	box-shadow: 1px 2px 2px rgb(237, 235, 235);
+	font-weight: bolder;
+}
+
+#back-to-faktur{
+	border-radius: 3px;
+	box-shadow: 1px 2px 2px rgb(237, 235, 235);
+	font-weight: bolder;
+}
+
+
+
+
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+
+
+#button-apikey, #button-tenant {
+    display: none;
 }
 
 
@@ -145,7 +192,7 @@ body {
 
 
 
-/* For tablets and larger screens */
+
 @media (min-width: 768px) {
     .menu-title {
         font-size: 2rem;
@@ -156,7 +203,7 @@ body {
     }
 }
 
-/* For desktops and wider screens */
+
 @media (min-width: 1024px) {
     .menu-title {
         font-size: 2.5rem;
