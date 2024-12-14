@@ -360,7 +360,7 @@ document.getElementById("new-order").addEventListener("click", () => {
 
 
 
-console.log("Cart Contents Before Updating Receipt:", cart);
+
 
 
 
