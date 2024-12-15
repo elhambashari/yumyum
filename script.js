@@ -355,18 +355,6 @@ document.getElementById("new-order").addEventListener("click", () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 function updateReceipt() {
     console.log("Cart Contents Before Updating Receipt:", cart);  
 
