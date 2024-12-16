@@ -398,6 +398,11 @@ kvittoButton.addEventListener("click", () => {
 
 
 
+const tillbakaFakturButton = document.getElementById("back-to-faktur");
+
+tillbakaFakturButton.addEventListener("click", () => {
+    navigateToPage("faktur");
+});
 
 
 
