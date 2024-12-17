@@ -12,7 +12,11 @@
 <body>
     <main>
 		<button id="button-apikey">Fetch API Key</button>
-        <button id="button-tenant">Fetch Tenant</button>
+		<button id="button-tenant">Fetch Tenant</button>
+	
+		<div id="api-key-container"></div>
+
+        <div id="tenant-container"></div>
 
 		
 
@@ -36,15 +40,14 @@
             <div id="cart-items" class="items-container"></div>
             <div id="total">
                 <span>Totalt: <span id="total-price">0</span> SEK</span>
-                <button id="place-order">Betala</button>
-				<button id="back-to-menu">bakåt</button>
+                <button id="place-order">Beställa</button>
+				<button id="back-to-menu">Tillbaka</button>
 
             </div>
         </section>
 
         <!-- Invoice Section -->
         <section id="faktur" class="page">
-            <h1>Faktur</h1>
             <p id="confirmation-text">Tack  Elham för din köp!</p>
 			<p >Dina Wontons Tillagas!</p>
             <button id="new-order">Ny beställning</button>
@@ -55,7 +58,7 @@
 <section id="kvitto-page" class="page">
     <h1>Kvitto</h1>
     <div id="receipt-container"></div>
-    <button id="back-to-faktur">Tillbaka till faktur</button>
+    <button id="back-to-faktur">Tillbaka </button>
 </section>
 
     </main>  

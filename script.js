@@ -1,256 +1,153 @@
-const apiUrl = 'https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com/';
+const apiUrl = "https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com";
+console.log("Request URL:", apiUrl + "/keys");
+
 const apiKey = "yum-fPTHpvozwrJ7H2FT";
+console.log("API Key:", apiKey);
+
 const tenantName = "Elham";
+console.log("Tenant Name:", tenantName);
 
-
-const apiKeyContainer = document.getElementById('api-key-container'); 
-const tenantContainer = document.getElementById('tenant-container'); 
-const buttonApiKey = document.getElementById('button-apikey');
-const buttonTenant = document.getElementById('button-tenant');
+const apiKeyContainer = document.getElementById("api-key-container");
+console.log("API Key Container:", apiKeyContainer);
+const tenantContainer = document.getElementById("tenant-container");
+console.log("Tenant Container:", tenantContainer);
+const buttonApiKey = document.getElementById("button-apikey");
+console.log("Button API Key:", buttonApiKey);
+const buttonTenant = document.getElementById("button-tenant");
+console.log("Button Tenant:", buttonTenant);
 
 async function getKey() {
-    try {
-        const options = { method: 'POST' };
-        const response = await fetch(apiUrl + '/keys', options);
-        if (!response.ok) {
-            throw new Error(`HTTP Error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log('API Key Data:', data);
+  console.log("Fetching API key...");
 
-        
-        apiKeyContainer.innerText = `API Key: ${data.key}`;
-    } catch (error) {
-        console.error('Error fetching API Key:', error);
-        apiKeyContainer.innerText = `Error fetching API Key: ${error.message}`;
+  try {
+    const options = { method: "POST" };
+    const response = await fetch(apiUrl + "/keys", options);
+    console.log("Response Status:", response.status);
+    if (!response.ok) {
+      throw new Error(`HTTP Error! Status: ${response.status}`);
     }
+    const data = await response.json();
+    console.log("API Key Data:", data);
+
+    apiKeyContainer.innerText = `API Key: ${data.key}`;
+  } catch (error) {
+    console.error("Error fetching API Key:", error);
+    apiKeyContainer.innerText = `Error fetching API Key: ${error.message}`;
+  }
 }
 
+// Anropa menu-funktionen
+menu();
+
+async function menu() {
+  // console.log("menu funciton. api key: " + apiKey);
+  // try {
+  const options = {
+    headers: {
+      "x-zocom": apiKey,
+    },
+  };
+  console.log("Menu ska skicka request till: " + apiUrl + "/menu");
+  console.log("Med options: ", options);
+  const response = await fetch(apiUrl + "/menu", options);
+  console.log("Response Status:", response.status);
+  const data = await response.json();
+  console.log("Detta får vi från servern:", data);
+  // TODO: här ska du sätta värdet på ITEMS
+  // DATA är ett objekt, som innehåller ITEMS
+  // ITEMS är en array/lista, som innehåller objekt
+  ITEMS = data.items
+  renderMenu(ITEMS);
+  // TODO: anropa renderMenu med ITEMS
+
+  
+}
 
 async function getTenant() {
-    try {
-        const options = {
-            method: 'POST',
-            headers: {
-                "Content-Type": 'application/json',
-                "x-zocom": apiKey
-            },
-            body: JSON.stringify({ name:  "Elham"})
-        };
-        const response = await fetch(apiUrl + '/tenants', options);
-        if (!response.ok) {
-            throw new Error(`HTTP Error! Status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log('Tenant Data:', data);
-
-        
-        tenantContainer.innerText = `Tenant ID: ${data.id}, Tenant Name: ${data.name}`;
-    } catch (error) {
-        console.error('Error fetching Tenant:', error);
-        tenantContainer.innerText = `Error fetching Tenant: ${error.message}`;
+  try {
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-zocom": apiKey,
+      },
+      body: JSON.stringify({ name: "Elham" }),
+    };
+    const response = await fetch(apiUrl + "/tenants", options);
+    if (!response.ok) {
+      throw new Error(`HTTP Error! Status: ${response.status}`);
     }
+    const data = await response.json();
+    console.log("Tenant Data:", data);
+
+    tenantContainer.innerText = `Tenant ID: ${data.id}, Tenant Name: ${data.name}`;
+  } catch (error) {
+    console.error("Error fetching Tenant:", error);
+    tenantContainer.innerText = `Error fetching Tenant: ${error.message}`;
+  }
 }
 
+buttonApiKey.addEventListener("click", getKey);
+buttonTenant.addEventListener("click", getTenant);
 
-buttonApiKey.addEventListener('click', getKey);
-buttonTenant.addEventListener('click', getTenant);
-
-
-
-
-
-
-
-const ITEMS = [
-	{
-	  id: 1,
-	  name: "Karlstad",
-	  ingredients: ["kantarell", "scharlottenlök", "morot", "bladpersilja"],
-	  price: 9,
-	},
-	{
-	  id: 2,
-	  name: "Bangkok",
-	  ingredients: ["morot", "salladslök", "chili", "kokos", "lime", "koriander"],
-	  price: 9,
-	},
-	{
-	  id: 3,
-	  name: "Ho Chi Minh",
-	  ingredients: ["kål", "morot", "salladslök", "chili", "vitlök", "ingefära", "tofu"],
-	  price: 9,
-	},
-	{
-	  id: 4,
-	  name: "Paris",
-	  ingredients: ["kål", "honung", "chevré", "basilika", "valnötspasta"],
-	  price: 9,
-	},
-	{
-	  id: 5,
-	  name: "Oaxaca",
-	  ingredients: ["majs", "tomat", "rostade ärtor", "vitlök", "lime"],
-	  price: 9,
-	},
-	{
-		id: 6,
-		"type": "dip",
-		name: "Sweet Chili",
-		"description": "Stark och söt dip från Thailänska höglandet.",
-		price: 19
-	  },
-	  {
-		id: 7,
-		"type": "dip",
-		name: "Sweet & Sour",
-		"description": "Klassiska sötsura dipsåsen från Kina.",
-		price: 19
-	  },
-	  {
-		id: 8,
-		"type": "dip",
-		name: "Guacamole",
-		"description": "Avocado, tomat och kryddor i optimal kombination.",
-		price: 19
-	  },
-	  {
-		id: 9,
-		"type": "dip",
-		name: "Wonton Standard",
-		"description": "Smaksatt olja med soya, chili, vitlök & ingefära.",
-		price: 19
-	  },
-	  {
-		id: 10,
-		"type": "dip",
-		name: "Hot Mango",
-		"description": "Kryddstark och söt chunky mangodip.",
-		price: 19
-	  },
-	  {
-		id: 11,
-		"type": "dip",
-		name: "Chili Mayo",
-		"description": "Egengjord majonäs smaksatt med chili.",
-		price: 19
-	  },
-	
-	  {
-		id: 12,
-		"type": "drink",
-		name: "Sprite",
-		"description": "Lorem ipsum dolor sit amet, bubbly fruity elit. Fizzy carbonated.",
-		price: 19
-	  },
-	  {
-		id: 13,
-		"type": "drink",
-		name: "Fanta Orange",
-		"description": "Lorem ipsum dolor sit amet, bubbly fruity elit. Fizzy carbonated.",
-		price: 19
-	  },
-	  {
-		id: 14,
-		"type": "drink",
-		name: "Fanta Exotic",
-		"description": "Lorem ipsum dolor sit amet, bubbly fruity elit. Fizzy carbonated.",
-		price: 19
-	  },
-	  {
-		id: 15,
-		"type": "drink",
-		name: "Coca Cola",
-		"description": "Lorem ipsum dolor sit amet, bubbly fruity elit. Fizzy carbonated.",
-		price: 19
-	  },
-	  {
-		id: 16,
-		"type": "drink",
-		name: "LOKA Citrus",
-		"description": "Lorem ipsum dolor sit amet, bubbly fruity elit. Fizzy carbonated.",
-		price: 19
-	  },
-	  {
-		id: 17,
-		"type": "drink",
-		name: "LOKA Granatäpple",
-		"description": "Lorem ipsum dolor sit amet, bubbly fruity elit. Fizzy carbonated.",
-		price: 19
-	  }
-	]
-
-  
-		
-	
-  
-  
 let cart = [];
-
 
 const menuContainer = document.getElementById("menu-items");
 
-
-
-ITEMS.forEach((item) => {
+// TODO: vänta med att köra forEach tills vi har hämtat alla menu items
+let ITEMS = [];
+function renderMenu(items) {
+  items.forEach((item) => {
     const div = document.createElement("div");
     div.className = "item";
-
+	
+  
     div.innerHTML = `
-        <div class="menu-item">
-            <span class="name">${item.name}</span>
-            <span class="dots"></span>
-            <span class="price">${item.price} SEK</span>
-        </div>
-        <p class="ingredients">${item.ingredients?.join(", ") || ""}</p>
-    `;
-
+          <div class="menu-item">
+              <span class="name">${item.name}</span>
+              <span class="dots"></span>
+              <span class="price">${item.price} SEK</span>
+          </div>
+          <p class="ingredients">${item.ingredients?.join(", ") || ""}</p>
+      `;
+	 
+  
     menuContainer.appendChild(div);
-
-
-
+	
+  
     // Event listener for clicks
     div.addEventListener("click", () => {
-        const existingItem = cart.find((cartItem) => cartItem.id === item.id);
-        if (existingItem) {
-            existingItem.quantity += 1;
-        } else {
-            cart.push({ ...item, quantity: 1 });
-        }
-        updateCart();
-        updateCartBadge();
+      const existingItem = cart.find((cartItem) => cartItem.id === item.id);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({ ...item, quantity: 1 });
+      }
+	 
+      updateCart();
+      updateCartBadge();
+	 
     });
-
-
-
-
-
-});
-
-
-
-
-function addToCart(item) {
-    cart.push(item);
-    console.log("First Item in Cart:", cart[0]);  
+	
+  });
 }
 
-
-
-
-
+function addToCart(item) {
+  cart.push(item);
+  console.log("First Item in Cart:", cart[0]);
+}
 
 // Update cart display
 function updateCart() {
-    const cartContainer = document.getElementById("cart-items");
-    const totalPriceElem = document.getElementById("total-price");
-    cartContainer.innerHTML = "";
-    let totalPrice = 0;
+  const cartContainer = document.getElementById("cart-items");
+  const totalPriceElem = document.getElementById("total-price");
+  cartContainer.innerHTML = "";
+  let totalPrice = 0;
 
-    cart.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `
+  cart.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
             <h3>${item.name}</h3>
             <p>Price: ${item.price} SEK</p>
             <p>Quantity: <span class="quantity">${item.quantity}</span></p>
@@ -258,170 +155,138 @@ function updateCart() {
             <button data-index="${index}" class="increase-quantity">+</button>
             <button data-index="${index}" class="decrease-quantity">-</button>
         `;
-        cartContainer.appendChild(div);
-        totalPrice += item.price * item.quantity;
-    });
+    cartContainer.appendChild(div);
+    totalPrice += item.price * item.quantity;
+  });
 
-    totalPriceElem.textContent = totalPrice;
+  totalPriceElem.textContent = totalPrice;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 // Update cart badge
 function updateCartBadge() {
-    const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-    const cartBadge = document.getElementById("cart-badge");
+  const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+  const cartBadge = document.getElementById("cart-badge");
 
-    if (itemCount > 0) {
-        cartBadge.textContent = itemCount;
-        cartBadge.classList.remove("hidden");
-    } else {
-        cartBadge.classList.add("hidden");
-    }
+  if (itemCount > 0) {
+    cartBadge.textContent = itemCount;
+    cartBadge.classList.remove("hidden");
+  } else {
+    cartBadge.classList.add("hidden");
+  }
 }
 
 // Handle click on the cart icon (SVG)
 document.getElementById("cart-icon-container").addEventListener("click", () => {
-    navigateToPage("order");
+  navigateToPage("order");
 });
 
 // Increase quantity of an item in the cart
 document.getElementById("cart-items").addEventListener("click", (e) => {
-    if (e.target.classList.contains("increase-quantity")) {
-        const index = Number(e.target.dataset.index);
-        cart[index].quantity += 1;
-        updateCart();
-    } else if (e.target.classList.contains("decrease-quantity")) {
-        const index = Number(e.target.dataset.index);
-        if (cart[index].quantity > 1) {
-            cart[index].quantity -= 1;
-            updateCart();
-        }
-    } else if (e.target.classList.contains("remove-from-cart")) {
-        const index = Number(e.target.dataset.index);
-        cart.splice(index, 1);
-        updateCart();
-        updateCartBadge();
+  if (e.target.classList.contains("increase-quantity")) {
+    const index = Number(e.target.dataset.index);
+    cart[index].quantity += 1;
+    updateCart();
+  } else if (e.target.classList.contains("decrease-quantity")) {
+    const index = Number(e.target.dataset.index);
+    if (cart[index].quantity > 1) {
+      cart[index].quantity -= 1;
+      updateCart();
     }
+  } else if (e.target.classList.contains("remove-from-cart")) {
+    const index = Number(e.target.dataset.index);
+    cart.splice(index, 1);
+    updateCart();
+    updateCartBadge();
+  }
 });
 
 // Place order and reset cart
 document.getElementById("place-order").addEventListener("click", () => {
-    cart = [];
-    updateCart();
-    updateCartBadge();
-    showFaktur();
+  cart = [];
+  updateCart();
+  updateCartBadge();
+  showFaktur();
 });
 
-
-
-
-
-
-const backButton = document.getElementById("back-to-menu"); 
+const backButton = document.getElementById("back-to-menu");
 
 if (backButton) {
-    backButton.addEventListener("click", () => {
-        navigateToPage("menu");
-    });
+  backButton.addEventListener("click", () => {
+    navigateToPage("menu");
+  });
 }
-
-
-
-
 
 // Show Faktur page
 function showFaktur() {
-    document.querySelectorAll(".page").forEach((section) => section.classList.remove("active"));
-    document.getElementById("faktur").classList.add("active");
+  document
+    .querySelectorAll(".page")
+    .forEach((section) => section.classList.remove("active"));
+  document.getElementById("faktur").classList.add("active");
 }
 
 // New order
 document.getElementById("new-order").addEventListener("click", () => {
-    resetApp();
-    navigateToPage("menu");
+  resetApp();
+  navigateToPage("menu");
 });
 
-
-
-
 function updateReceipt() {
-    console.log("Cart Contents Before Updating Receipt:", cart);  
+  console.log("Cart Contents Before Updating Receipt:", cart);
 
-    const receiptContainer = document.getElementById("receipt-container");
-    receiptContainer.innerHTML = ""; 
-    let totalPrice = 0;
+  const receiptContainer = document.getElementById("receipt-container");
+  receiptContainer.innerHTML = "";
+  let totalPrice = 0;
 
-    if (cart.length === 0) {
-        console.log("The cart is empty!"); 
-    }
+  if (cart.length === 0) {
+    console.log("The cart is empty!");
+  }
 
-    cart.forEach((item) => {
-        console.log("Item Price:", item.price);
-        console.log("Item Quantity:", item.quantity);
-        const div = document.createElement("div");
-        div.className = "item";
-        div.innerHTML = `
+  cart.forEach((item) => {
+    console.log("Item Price:", item.price);
+    console.log("Item Quantity:", item.quantity);
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
             <h3>${item.name}</h3>
             <p>Price: ${item.price} SEK</p>
             <p>Quantity: ${item.quantity}</p>
         `;
-        receiptContainer.appendChild(div);
-        totalPrice += item.price * item.quantity;
-    });
+    receiptContainer.appendChild(div);
+    totalPrice += item.price * item.quantity;
+  });
 
-    const totalDiv = document.createElement("div");
-    totalDiv.className = "total-price";
-    totalDiv.innerHTML = `<h3>Total: ${totalPrice} SEK</h3>`;
-    receiptContainer.appendChild(totalDiv);
+  const totalDiv = document.createElement("div");
+  totalDiv.className = "total-price";
+  totalDiv.innerHTML = `<h3>Total: ${totalPrice} SEK</h3>`;
+  receiptContainer.appendChild(totalDiv);
 }
-
 
 const kvittoButton = document.getElementById("kvitto");
 
 kvittoButton.addEventListener("click", () => {
-    console.log("Kvitto button clicked!"); 
-    updateReceipt(); 
-    navigateToPage("kvitto-page"); 
+  console.log("Kvitto button clicked!");
+  updateReceipt();
+  navigateToPage("kvitto-page");
 });
-
-
-
 
 const tillbakaFakturButton = document.getElementById("back-to-faktur");
 
 tillbakaFakturButton.addEventListener("click", () => {
-    navigateToPage("faktur");
+  navigateToPage("faktur");
 });
-
-
-
 
 // Navigating to the specific page (ensuring only one is active)
 function navigateToPage(pageId) {
-    document.querySelectorAll(".page").forEach((section) => section.classList.remove("active"));
-    document.getElementById(pageId).classList.add("active");
+  document
+    .querySelectorAll(".page")
+    .forEach((section) => section.classList.remove("active"));
+  document.getElementById(pageId).classList.add("active");
 }
-
-
-
-
 
 // Reset app state for a new order
 function resetApp() {
-    cart = [];
-    updateCart();
-    updateCartBadge();
+  cart = [];
+ 
+  updateCart();
+  updateCartBadge();
 }
-
-

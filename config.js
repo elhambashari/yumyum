@@ -1,4 +1,4 @@
-export const API_KEY = "yum-fPTHpvozwrJ7H2FT";
+ const API_KEY = "yum-fPTHpvozwrJ7H2FT";
 
 
 
