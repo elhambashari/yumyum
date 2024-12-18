@@ -200,13 +200,44 @@ document.getElementById("cart-items").addEventListener("click", (e) => {
   }
 });
 
+
+
+
 // Place order and reset cart
-document.getElementById("place-order").addEventListener("click", () => {
+document.getElementById("place-order").addEventListener("click", async() => {
+	
   cart = [];
+  const orderId = await postOrder();
+  const eta = await fetchETA(); 
+  showReceipt(orderId, eta)
   updateCart();
   updateCartBadge();
   showFaktur();
 });
+
+
+async function  postOrder() {
+	const orderId = `ORD-${Math.floor(Math.random() * 1000000)}`;
+	console.log("Generated Order ID:", orderId);	
+	
+return orderId;	
+}
+
+
+
+	
+async function fetchETA() {
+	const now = new Date();
+	now.setMinutes(now.getMinutes() + 5);
+	const minutes = 5; 
+	
+	return `${minutes} min`; 
+
+  }
+
+
+  
+  
 
 const backButton = document.getElementById("back-to-menu");
 
@@ -216,6 +247,11 @@ if (backButton) {
   });
 }
 
+
+
+
+
+
 // Show Faktur page
 function showFaktur() {
   document
@@ -223,6 +259,23 @@ function showFaktur() {
     .forEach((section) => section.classList.remove("active"));
   document.getElementById("faktur").classList.add("active");
 }
+
+
+
+
+function showReceipt(orderId, eta) {
+    console.log('Order ID:', orderId); 
+	console.log("ETA:", eta);
+    const receiptText = document.getElementById('confirmation-text');
+    receiptText.innerHTML = `
+        Order ID: ${orderId}<br><br>
+		<strong>ETA:</strong> ${eta}
+    `;
+    navigateToPage('faktur');
+}
+
+
+
 
 // New order
 document.getElementById("new-order").addEventListener("click", () => {
@@ -261,21 +314,8 @@ function updateReceipt() {
   receiptContainer.appendChild(totalDiv);
 }
 
-const kvittoButton = document.getElementById("kvitto");
 
-kvittoButton.addEventListener("click", () => {
-  console.log("Kvitto button clicked!");
-  updateReceipt();
-  navigateToPage("kvitto-page");
-});
 
-const tillbakaFakturButton = document.getElementById("back-to-faktur");
-
-tillbakaFakturButton.addEventListener("click", () => {
-  navigateToPage("faktur");
-});
-
-// Navigating to the specific page (ensuring only one is active)
 function navigateToPage(pageId) {
   document
     .querySelectorAll(".page")
