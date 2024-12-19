@@ -162,6 +162,12 @@ function updateCart() {
   totalPriceElem.textContent = totalPrice;
 }
 
+
+
+
+
+
+
 // Update cart badge
 function updateCartBadge() {
   const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -203,41 +209,162 @@ document.getElementById("cart-items").addEventListener("click", (e) => {
 
 
 
+
+
+
+
+
+
+
+   
+
+
 // Place order and reset cart
 document.getElementById("place-order").addEventListener("click", async() => {
+	const cartItems = cart.map(item => {
+
+		return item.id
+			
+	});
+
 	
-  cart = [];
-  const orderId = await postOrder();
-  const eta = await fetchETA(); 
-  showReceipt(orderId, eta)
-  updateCart();
-  updateCartBadge();
-  showFaktur();
-});
+	const options = {
+		method: 'POST',
+		headers: {
+			"Content-Type": "application/json",
+			"x-zocom": apiKey,  
+		},
+		body: JSON.stringify({ items: cartItems }),
+	};
+	console.log("cart är:",cart);
+
+	const response = await fetch(apiUrl + "/6prt/orders", options);
+	
+	console.log("Cart Items:", cartItems);
+	
+	if (!response.ok) {
+		throw new Error(`HTTP error! Status: ${response.status}`);
+	}
+	
+	const data = await response.json();
+	console.log("Response Data:", data);
+	// Console check
+	console.log("Order ID:", data.id);
+	
 
 
-async function  postOrder() {
-	const orderId = `ORD-${Math.floor(Math.random() * 1000000)}`;
-	console.log("Generated Order ID:", orderId);	
+
 	
-return orderId;	
+
+
+
+
+
+
+
+async function fetchETA() {
+    try {
+        const options = {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "x-zocom": apiKey,
+            },
+        };
+
+        const etaResponse = await fetch(apiUrl + "/6prt/orders", options);
+		console.log("Response Status:", etaResponse.status);
+
+        if (!etaResponse.ok) {
+            throw new Error(`HTTP error! Status: ${etaResponse.status}`);
+        }
+
+        const etaData = await etaResponse.json();
+        console.log("ETA Response Data:", etaData);
+    } catch (error) {
+        console.error("Error fetching ETA:", error);
+    }
+}
+
+  
+
+  
+
+
+// Show Faktur page
+function showFaktur() {
+	document
+	  .querySelectorAll(".page")
+	  .forEach((section) => section.classList.remove("active"));
+	document.getElementById("faktur").classList.add("active");
+  }
+  
+
+
+
+
+
+  function showReceipt(orderId, eta) {
+    console.log('Order ID:', orderId); 
+	//console.log("ETA:", eta);
+    const receiptText = document.getElementById('confirmation-text');
+    receiptText.innerHTML = `
+        Order ID: ${orderId}<br><br>
+		<strong>ETA: ${eta}</strong> 
+    `;
+    navigateToPage('faktur');
+
 }
 
 
 
-	
-async function fetchETA() {
-	const now = new Date();
-	now.setMinutes(now.getMinutes() + 5);
-	const minutes = 5; 
-	
-	return `${minutes} min`; 
 
-  }
+
+
+	async function postOrder() {
+		try {
+		  
+		  const options = {
+			method: "GET",
+			headers: {
+			  "Content-Type": "application/json",
+			  "x-zocom": apiKey,
+			},
+		  };
+	  
+		 // const data = await response.json();
+		  const orderId = data.order.id 
+	  
+	      console.log("Order ID fetched from items:", data);
+		  let returnObject = {
+			id: data.order.id,
+			eta: data.order.eta
+		}
+		return returnObject;
+		} catch (error) {
+		  console.error("Error fetching orderId:", error);
+		  return null; 
+		}
+	  }
+	  
+  
 
 
   
-  
+cart = [];
+const orderId = await postOrder();
+ const eta = await fetchETA(); 
+ showReceipt(orderId, eta)
+ updateCart();
+ updateCartBadge();
+ showFaktur();
+});
+
+
+
+
+
+
 
 const backButton = document.getElementById("back-to-menu");
 
@@ -251,29 +378,13 @@ if (backButton) {
 
 
 
-
-// Show Faktur page
-function showFaktur() {
-  document
-    .querySelectorAll(".page")
-    .forEach((section) => section.classList.remove("active"));
-  document.getElementById("faktur").classList.add("active");
-}
-
-
-
-
-function showReceipt(orderId, eta) {
-    console.log('Order ID:', orderId); 
-	console.log("ETA:", eta);
-    const receiptText = document.getElementById('confirmation-text');
-    receiptText.innerHTML = `
-        Order ID: ${orderId}<br><br>
-		<strong>ETA:</strong> ${eta}
-    `;
-    navigateToPage('faktur');
-}
-
+function navigateToPage(pageId) {
+	document
+	  .querySelectorAll(".page")
+	  .forEach((section) => section.classList.remove("active"));
+	document.getElementById(pageId).classList.add("active");
+  }
+  
 
 
 
@@ -282,6 +393,18 @@ document.getElementById("new-order").addEventListener("click", () => {
   resetApp();
   navigateToPage("menu");
 });
+
+
+
+
+
+
+
+
+
+
+
+
 
 function updateReceipt() {
   console.log("Cart Contents Before Updating Receipt:", cart);
@@ -315,13 +438,6 @@ function updateReceipt() {
 }
 
 
-
-function navigateToPage(pageId) {
-  document
-    .querySelectorAll(".page")
-    .forEach((section) => section.classList.remove("active"));
-  document.getElementById(pageId).classList.add("active");
-}
 
 // Reset app state for a new order
 function resetApp() {
