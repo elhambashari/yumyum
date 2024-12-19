@@ -247,9 +247,6 @@ document.getElementById("place-order").addEventListener("click", async() => {
 	}
 	
 	const data = await response.json();
-	console.log("Response Data:", data);
-	// Console check
-	console.log("Order ID:", data.id);
 	
 
 
@@ -271,6 +268,10 @@ async function fetchETA() {
                 "x-zocom": apiKey,
             },
         };
+	
+
+
+
 
         const etaResponse = await fetch(apiUrl + "/6prt/orders", options);
 		console.log("Response Status:", etaResponse.status);
@@ -306,11 +307,10 @@ function showFaktur() {
 
   function showReceipt(orderId, eta) {
     console.log('Order ID:', orderId); 
-	//console.log("ETA:", eta);
     const receiptText = document.getElementById('confirmation-text');
     receiptText.innerHTML = `
-        Order ID: ${orderId}<br><br>
-		<strong>ETA: ${eta}</strong> 
+        Order ID: ${data.order.id}<br><br>
+		<strong>ETA: ${data.order.eta}</strong> 
     `;
     navigateToPage('faktur');
 
