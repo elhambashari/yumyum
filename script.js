@@ -1,24 +1,15 @@
 const apiUrl = "https://fdnzawlcf6.execute-api.eu-north-1.amazonaws.com";
-console.log("Request URL:", apiUrl + "/keys");
-
 const apiKey = "yum-fPTHpvozwrJ7H2FT";
-console.log("API Key:", apiKey);
-
 const tenantName = "Elham";
-console.log("Tenant Name:", tenantName);
+
 
 const apiKeyContainer = document.getElementById("api-key-container");
-console.log("API Key Container:", apiKeyContainer);
 const tenantContainer = document.getElementById("tenant-container");
-console.log("Tenant Container:", tenantContainer);
 const buttonApiKey = document.getElementById("button-apikey");
-console.log("Button API Key:", buttonApiKey);
 const buttonTenant = document.getElementById("button-tenant");
-console.log("Button Tenant:", buttonTenant);
+
 
 async function getKey() {
-  console.log("Fetching API key...");
-
   try {
     const options = { method: "POST" };
     const response = await fetch(apiUrl + "/keys", options);
@@ -36,32 +27,26 @@ async function getKey() {
   }
 }
 
-// Anropa menu-funktionen
+
 menu();
 
 async function menu() {
-  // console.log("menu funciton. api key: " + apiKey);
-  // try {
   const options = {
     headers: {
       "x-zocom": apiKey,
     },
   };
   console.log("Menu ska skicka request till: " + apiUrl + "/menu");
-  console.log("Med options: ", options);
   const response = await fetch(apiUrl + "/menu", options);
   console.log("Response Status:", response.status);
   const data = await response.json();
   console.log("Detta får vi från servern:", data);
-  // TODO: här ska du sätta värdet på ITEMS
-  // DATA är ett objekt, som innehåller ITEMS
-  // ITEMS är en array/lista, som innehåller objekt
   ITEMS = data.items
   renderMenu(ITEMS);
-  // TODO: anropa renderMenu med ITEMS
-
-  
+   
 }
+
+
 
 async function getTenant() {
   try {
@@ -208,15 +193,7 @@ document.getElementById("cart-items").addEventListener("click", (e) => {
 
 
 
-
-
-
-
-
-
-
-
-   
+ 
 
 
 // Place order and reset cart
@@ -236,11 +213,9 @@ document.getElementById("place-order").addEventListener("click", async() => {
 		},
 		body: JSON.stringify({ items: cartItems }),
 	};
-	console.log("cart är:",cart);
 
 	const response = await fetch(apiUrl + "/6prt/orders", options);
 	
-	console.log("Cart Items:", cartItems);
 	
 	if (!response.ok) {
 		throw new Error(`HTTP error! Status: ${response.status}`);
@@ -252,9 +227,6 @@ document.getElementById("place-order").addEventListener("click", async() => {
 
 
 	
-
-
-
 
 
 
@@ -281,11 +253,12 @@ async function fetchETA() {
         }
 
         const etaData = await etaResponse.json();
-        console.log("ETA Response Data:", etaData);
     } catch (error) {
         console.error("Error fetching ETA:", error);
     }
+	
 }
+
 
   
 
@@ -308,13 +281,20 @@ function showFaktur() {
   function showReceipt(orderId, eta) {
     console.log('Order ID:', orderId); 
     const receiptText = document.getElementById('confirmation-text');
+	//const etaDate = new Date(eta);
+	//const minutes = etaDate.getMinutes();
     receiptText.innerHTML = `
-        Order ID: ${data.order.id}<br><br>
-		<strong>ETA: ${data.order.eta}</strong> 
+        #${data.order.id}<br><br>
+		<strong>${data.order.eta}</strong> <br><br>
+		
+	
     `;
+    
     navigateToPage('faktur');
 
 }
+
+
 
 
 
@@ -334,24 +314,25 @@ function showFaktur() {
 	  
 		 // const data = await response.json();
 		  const orderId = data.order.id 
-	  
-	      console.log("Order ID fetched from items:", data);
+	
 		  let returnObject = {
 			id: data.order.id,
 			eta: data.order.eta
 		}
+		
 		return returnObject;
 		} catch (error) {
 		  console.error("Error fetching orderId:", error);
 		  return null; 
 		}
 	  }
-	  
-  
+	 
+		
 
-
+			
   
 cart = [];
+
 const orderId = await postOrder();
  const eta = await fetchETA(); 
  showReceipt(orderId, eta)
@@ -393,11 +374,6 @@ document.getElementById("new-order").addEventListener("click", () => {
   resetApp();
   navigateToPage("menu");
 });
-
-
-
-
-
 
 
 
