@@ -82,6 +82,12 @@ body {
     width: 100%; 
 }
 
+#faktur.page {
+    background-color: #4A4041; 
+    color: #ffffff; 
+}
+
+
 .page {
     display: none;
     padding: 20px;
@@ -107,7 +113,7 @@ body {
     width: 100%;
     height: 300px; 
     margin: 0 auto;
-    background-color: #266e45; 
+    background-color:#4a4041; 
     display: flex;
     justify-content: center;
     align-items: center;
