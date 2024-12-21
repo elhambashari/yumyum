@@ -102,6 +102,40 @@ body {
 
 
 
+#topbox {
+    position: relative;
+    width: 100%;
+    height: 300px; 
+    margin: 0 auto;
+    background-color: #266e45; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; 
+}
+
+#topbox img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+}
+
+
+
+.invoice-container {
+	display: flex;
+	flex-direction: column; /* By default, content is stacked vertically */
+	align-items: center; /* Centers content horizontally */
+	text-align: center; /* Centers text */
+  }
+
+
+
+
+
+
+
+
 
 
 .menu-item {
@@ -141,6 +175,7 @@ font-weight: bolder;
 
 }
 
+
 #back-to-menu{
 	border-radius: 3px;
 	box-shadow: 1px 2px 2px rgb(237, 235, 235);
@@ -157,6 +192,7 @@ font-weight: bolder;
 	border-radius: 3px;
 	box-shadow: 1px 2px 2px rgb(237, 235, 235);
 	font-weight: bolder;
+	margin-top: 15px;
 }
 
 
@@ -192,6 +228,19 @@ font-weight: bolder;
     .items-container {
         grid-template-columns: repeat(2, 1fr);
     }
+	#topbox {
+        height: 250px; 
+		max-width: 300px;
+    }
+	.invoice-container {
+		flex-direction: column;
+		justify-content: center; 
+	  }
+	  #kvitto{
+		margin-top: 15px;
+	  }
+	
+
 }
 
 
@@ -208,4 +257,16 @@ font-weight: bolder;
         margin: 40px auto;
         width: 80%;
     }
+	#topbox {
+        height: 400px;
+		max-width: 300px; 
+    }
+	.invoice-container {
+		flex-direction: column; 
+		justify-content: center; 
+	  }
+	  #kvitto{
+		margin-top: 15px;
+	  }
+	
 }
